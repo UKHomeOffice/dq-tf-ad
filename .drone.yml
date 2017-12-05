@@ -3,4 +3,5 @@ pipeline:
   testsuite:
     image: quay.io/ukhomeofficedigital/dq-tf-testsuite:latest
     privileged: true
+    pull: true
     commands: run
