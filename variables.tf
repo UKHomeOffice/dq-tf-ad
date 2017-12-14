@@ -34,10 +34,10 @@ variable "AdminPassword" {
 
 variable "Domain" {
   description = "Domain to create in AD"
-  type = "map"
-  default = {
-    address = "example.com"
-    directoryOU = "OU=example,DC=example,DC=com"
+  type        = "map"
 
+  default = {
+    address     = "example.com"
+    directoryOU = "OU=example,DC=example,DC=com"
   }
 }

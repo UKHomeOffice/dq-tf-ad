@@ -7,10 +7,10 @@ module "ad" {
   peer_count   = 2
   subnets      = "${aws_subnet.subnet.*.id}"
   subnet_count = 2
-  Domain  = {
-    address = "myapp.com"
-    directoryOU = "OU=myapp,DC=myapp,DC=com"
 
+  Domain = {
+    address     = "myapp.com"
+    directoryOU = "OU=myapp,DC=myapp,DC=com"
   }
 }
 
