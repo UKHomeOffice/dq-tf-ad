@@ -24,7 +24,7 @@ module "ad" {
   "${aws_subnet.YOUSSUBNET2.id}",
   ]
   subnet_count = 2
-  default = {
+  Domain = {
     address = "mydomain.com"
     directoryOU = "OU=mydomain,DC=mydomain,DC=com"
   }
