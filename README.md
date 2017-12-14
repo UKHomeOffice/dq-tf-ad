@@ -12,11 +12,6 @@ Provides an Active Directory in a dedicated VPC that you can then peer with and 
 
 ## Usage
 ```hcl
-resource "aws_ssm_association" "win" {
-  name        = "${module.ad.ad_aws_ssm_document_name}"
-  instance_id = "${element(aws_instance.win.*.id, count.index)}"
-}
-
 module "ad" {
   source = "github.com/ukhomeoffice/dq-tf-ad"
   peer_with = [
@@ -39,6 +34,11 @@ resource "aws_instance" "ad_writer" {
 #...
   iam_instance_profile = "${module.ad.ad_writer_instance_profile_name}"
 #...
+}
+
+resource "aws_ssm_association" "win" {
+  name        = "${module.ad.ad_aws_ssm_document_name}"
+  instance_id = "${aws_instance.ad_writer.id}"
 }
 
 ```
