@@ -22,7 +22,7 @@ resource "aws_directory_service_directory" "ad" {
   size     = "Large"
 
   lifecycle {
-    prevent_destroy = "${var.ad_prevent_destroy}"
+    prevent_destroy = "${var.ad_prevent_destroy != "" ? true : false}"
   }
 
   vpc_settings {

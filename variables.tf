@@ -49,5 +49,5 @@ variable "allow_remote_vpc_dns_resolution" {
 
 variable "ad_prevent_destroy" {
   description = "prevent the destruction of the AD"
-  default     = false
+  default     = ""
 }
