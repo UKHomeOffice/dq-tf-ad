@@ -80,7 +80,7 @@ resource "aws_vpc_peering_connection" "peering" {
   }
 
   requester {
-    allow_remote_vpc_dns_resolution = true
+    allow_remote_vpc_dns_resolution = "${var.allow_remote_vpc_dns_resolution}"
   }
 
   count = "${var.peer_count}"

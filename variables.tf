@@ -41,3 +41,8 @@ variable "Domain" {
     directoryOU = "OU=example,DC=example,DC=com"
   }
 }
+
+variable "allow_remote_vpc_dns_resolution" {
+  description = "allow_remote_vpc_dns_resolution on peers"
+  default     = true
+}
