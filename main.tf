@@ -21,10 +21,6 @@ resource "aws_directory_service_directory" "ad" {
   password = "${local.AdminPassword}"
   size     = "Large"
 
-  lifecycle {
-    prevent_destroy = "${var.ad_prevent_destroy != "" ? true : false}"
-  }
-
   vpc_settings {
     vpc_id = "${aws_vpc.vpc.id}"
 

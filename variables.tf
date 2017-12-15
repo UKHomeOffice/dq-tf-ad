@@ -46,8 +46,3 @@ variable "allow_remote_vpc_dns_resolution" {
   description = "allow_remote_vpc_dns_resolution on peers"
   default     = true
 }
-
-variable "ad_prevent_destroy" {
-  description = "prevent the destruction of the AD"
-  default     = ""
-}
