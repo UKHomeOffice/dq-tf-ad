@@ -17,9 +17,10 @@ resource "aws_vpc" "vpc" {
 }
 
 resource "aws_directory_service_directory" "ad" {
-  name     = "${var.Domain["address"]}"
-  password = "${local.AdminPassword}"
-  size     = "Large"
+  name            = "${var.Domain["address"]}"
+  password        = "${local.AdminPassword}"
+  size            = "Large"
+  prevent_destroy = "${var.ad_prevent_destroy}"
 
   vpc_settings {
     vpc_id = "${aws_vpc.vpc.id}"
