@@ -22,3 +22,8 @@ output "ad_ips" {
   description = "The IP Addresses of the AD service"
   value       = "${aws_directory_service_directory.ad.dns_ip_addresses}"
 }
+
+output "subnets" {
+  description = "The subnet ids"
+  value       = "${aws_subnet.subnets.*.id}"
+}
