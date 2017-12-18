@@ -27,3 +27,8 @@ output "subnets" {
   description = "The subnet ids"
   value       = "${aws_subnet.subnets.*.id}"
 }
+
+output "peering_ids" {
+  description = "The VPC peering ids."
+  value       = "${aws_vpc_peering_connection.peering.*.id}"
+}
