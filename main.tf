@@ -155,6 +155,8 @@ EOF
 resource "aws_vpc_dhcp_options" "dns_resolver" {
   domain_name_servers = [
     "${aws_directory_service_directory.ad.dns_ip_addresses}",
+    "${var.public_dns_servers["google_dns1"]}",
+    "${var.public_dns_servers["google_dns2"]}",
   ]
 }
 
