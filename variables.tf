@@ -1,6 +1,6 @@
 variable "cidr_block" {
   description = "CIDR block for the AD subnet to use"
-  default     = "10.99.0.0/16"
+  default     = "10.1.0.0/16"
   type        = "string"
 }
 
@@ -49,10 +49,10 @@ variable "allow_remote_vpc_dns_resolution" {
 
 variable "public_dns_servers" {
   description = "Map of Public DNS servers."
-  type        = "map"
+  type        = "list"
 
-  default = {
-    google_dns1 = "8.8.8.8"
-    google_dns2 = "8.8.4.4"
-  }
+  default = [
+    "8.8.8.8",
+    "8.8.4.4",
+  ]
 }
