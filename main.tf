@@ -176,7 +176,7 @@ resource "aws_ssm_document" "ssm_doc" {
 
   content = <<DOC
 {
-        "schemaVersion": "2.2",
+        "schemaVersion": "1.2",
         "description": "Join an instance to a domain",
         "runtimeConfig": {
            "aws:domainJoin": {
@@ -184,7 +184,7 @@ resource "aws_ssm_document" "ssm_doc" {
                   "directoryId": "${aws_directory_service_directory.ad.id}",
                   "directoryName": "${var.Domain["address"]}",
                   "directoryOU": "${var.Domain["directoryOU"]}",
-                  "dnsIpAddresses": ${jsonencode(aws_directory_service_directory.ad.dns_ip_addresses)}
+                  "dnsIpAddresses": "${aws_directory_service_directory.ad.dns_ip_addresses}"
                }
            }
         }
