@@ -184,7 +184,7 @@ resource "aws_ssm_document" "ssm_doc" {
                   "directoryId": "${aws_directory_service_directory.ad.id}",
                   "directoryName": "${var.Domain["address"]}",
                   "directoryOU": "${var.Domain["directoryOU"]}",
-                  "dnsIpAddresses": "${aws_directory_service_directory.ad.dns_ip_addresses}"
+                  "dnsIpAddresses": ${jsonencode(aws_directory_service_directory.ad.dns_ip_addresses)}
                }
            }
         }
