@@ -176,7 +176,7 @@ resource "aws_ssm_document" "ssm_doc" {
 
   content = <<DOC
 {
-        "schemaVersion": "1.0",
+        "schemaVersion": "2.2",
         "description": "Join an instance to a domain",
         "runtimeConfig": {
            "aws:domainJoin": {
