@@ -132,6 +132,7 @@ resource "aws_iam_role_policy" "policy_allow_all_ssm" {
                 "ssm:GetDocument",
                 "ssm:ListInstanceAssociations",
                 "ssm:UpdateAssociationStatus",
+                "ssm:UpdateInstanceAssociationStatus",
                 "ssm:UpdateInstanceInformation",
                 "ec2messages:AcknowledgeMessage",
                 "ec2messages:DeleteMessage",
