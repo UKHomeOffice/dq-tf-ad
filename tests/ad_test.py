@@ -130,7 +130,7 @@ resource "aws_route_table_association" "association" {
         self.assertIn("random_string.AdminPassword", self.result["ad"])
 
     def test_random_string_ssm_doc_name(self):
-        self.assertIn("random_string.ssm_doc_name", self.result["ad"])    
+        self.assertIn("random_string.ssm_doc_name", self.result["ad"])
 
 
 if __name__ == '__main__':

@@ -56,18 +56,3 @@ variable "public_dns_servers" {
     "8.8.4.4",
   ]
 }
-
-variable "service" {
-  default     = "dq-ad"
-  description = "As per naming standards in AWS-DQ-Network-Routing 0.5 document"
-}
-
-variable "environment" {
-  default     = "preprod"
-  description = "As per naming standards in AWS-DQ-Network-Routing 0.5 document"
-}
-
-variable "environment_group" {
-  default     = "dq-ad"
-  description = "As per naming standards in AWS-DQ-Network-Routing 0.5 document"
-}
