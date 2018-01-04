@@ -192,27 +192,3 @@ resource "aws_ssm_document" "ssm_doc" {
 }
 DOC
 }
-
-resource "aws_kms_key" "ad_joiner_account_key" {
-  description             = "KMS key for AD Joiner account"
-  deletion_window_in_days = 30
-
-  tags = {
-    Name             = "kms-${var.service}-ad-joiner-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
-  }
-}
-
-resource "aws_kms_key" "ad_admin_account_key" {
-  description             = "KMS key for AD admin account"
-  deletion_window_in_days = 30
-
-  tags = {
-    Name             = "kms-${var.service}-ad-admin-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
-  }
-}
