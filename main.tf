@@ -197,6 +197,28 @@ resource "aws_kms_key" "ad_joiner_account_key" {
   description             = "KMS key for AD Joiner account"
   deletion_window_in_days = 30
 
+  policy = <<EOF
+  {
+  "Version": "2012-10-17",
+  "Id": "key-default-1",
+  "Statement": [
+    {
+      "Sid": "Enable IAM User Permissions",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::483846886818:root",
+          "arn:aws:iam::093401982388:root",
+          "arn:aws:iam::797728447925:root"
+        ]
+      },
+      "Action": "kms:*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+
   tags = {
     Name             = "kms-${var.service}-ad-joiner-${var.environment}"
     Service          = "${var.service}"
@@ -208,6 +230,28 @@ resource "aws_kms_key" "ad_joiner_account_key" {
 resource "aws_kms_key" "ad_admin_account_key" {
   description             = "KMS key for AD admin account"
   deletion_window_in_days = 30
+
+  policy = <<EOF
+  {
+  "Version": "2012-10-17",
+  "Id": "key-default-1",
+  "Statement": [
+    {
+      "Sid": "Enable IAM User Permissions",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::483846886818:root",
+          "arn:aws:iam::093401982388:root",
+          "arn:aws:iam::797728447925:root"
+        ]
+      },
+      "Action": "kms:*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 
   tags = {
     Name             = "kms-${var.service}-ad-admin-${var.environment}"
