@@ -16,6 +16,17 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
 }
 
+resource "aws_default_security_group" "default" {
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_directory_service_directory" "ad" {
   name     = "${var.Domain["address"]}"
   password = "${local.AdminPassword}"
