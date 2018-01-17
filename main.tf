@@ -48,7 +48,7 @@ resource "aws_subnet" "subnets" {
   cidr_block              = "${cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index + 1)}"
   availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
   map_public_ip_on_launch = false
-  count                   = "${length(data.aws_availability_zones.available.names)}"
+  count                   = 2
 }
 
 resource "aws_route_table" "route_table" {
