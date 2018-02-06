@@ -171,7 +171,7 @@ EOF
 resource "aws_vpc_dhcp_options" "dns_resolver" {
   domain_name_servers = [
     "${aws_directory_service_directory.ad.dns_ip_addresses}",
-    "AmazonProvidedDNS",
+    "10.1.0.2",
   ]
 }
 
