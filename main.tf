@@ -41,6 +41,10 @@ resource "aws_directory_service_directory" "ad" {
   }
 
   type = "MicrosoftAD"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_subnet" "subnets" {
