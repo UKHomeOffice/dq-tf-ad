@@ -1,30 +1,30 @@
 variable "cidr_block" {
   description = "CIDR block for the AD subnet to use"
   default     = "10.1.0.0/16"
-  type        = "string"
+  type        = string
 }
 
 variable "peer_with" {
   description = "List of VPC IDs you'd like to peer the AD with"
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
 variable "peer_count" {
   description = "Count of how many things are in `peer_with`"
-  type        = "string"
+  type        = string
   default     = 0
 }
 
 variable "subnet_count" {
   description = "Count of how many things are in `subnets`"
-  type        = "string"
+  type        = string
   default     = 0
 }
 
 variable "subnets" {
   description = "List of subnet IDs you'd like rules made for"
-  type        = "list"
+  type        = list(string)
 }
 
 variable "AdminPassword" {
@@ -34,7 +34,7 @@ variable "AdminPassword" {
 
 variable "Domain" {
   description = "Domain to create in AD"
-  type        = "map"
+  type        = map(string)
 
   default = {
     address     = "example.com"
@@ -49,10 +49,11 @@ variable "allow_remote_vpc_dns_resolution" {
 
 variable "public_dns_servers" {
   description = "Map of Public DNS servers."
-  type        = "list"
+  type        = list(string)
 
   default = [
     "8.8.8.8",
     "8.8.4.4",
   ]
 }
+
