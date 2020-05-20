@@ -64,16 +64,7 @@ resource "aws_route_table_association" "association" {
         """
         self.runner = Runner(self.snippet)
         self.result = self.runner.result
-        # self.lists = [self.result['resource_changes'][i]['address'] for i in range(len(self.result['resource_changes']))]
         self.lists = [self.result['resource_changes'][i]['address'] for i in range(len(self.result['resource_changes']))]
-    # def test_root_destroy(self):
-    #     self.assertFalse(self.result["destroy"])
-    #     self.assertFalse(self.lists["destroy"])
-    def test_print(self):
-        print(self.lists)
-    #
-    # def test_aws_directory_service_directory(self):
-    #     self.assertIn("aws_directory_service_directory.ad", self.lists)
 
     def test_aws_directory_service_directory_name(self):
         self.assertEqual("example.com", self.runner.get_value("module.ad.aws_directory_service_directory.ad", "name"))
@@ -85,9 +76,7 @@ resource "aws_route_table_association" "association" {
         self.assertIn("module.ad.aws_iam_role.adwriter", self.lists)
 
     def test_aws_iam_role_policy_policy_allow_all_ssm(self):
-        # self.assertIn("aws_iam_role_policy.policy_allow_all_ssm", self.lists)
         self.assertIn("module.ad.aws_iam_role_policy.policy_allow_all_ssm", self.lists)
-
 
     def test_aws_route_peer(self):
         self.assertIn("module.ad.aws_route.peer[0]", self.lists)
