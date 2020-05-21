@@ -52,6 +52,9 @@ resource "aws_directory_service_directory" "ad" {
 
   lifecycle {
     prevent_destroy = true
+    ignore_changes = [
+      password,
+    ]
   }
 }
 
