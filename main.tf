@@ -229,9 +229,9 @@ resource "aws_ssm_document" "ssm_doc" {
 DOC
 
   lifecycle {
-    prevent_destroy = true
     ignore_changes = [
       name,
+      content,
     ]
   }
 
