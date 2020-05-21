@@ -187,7 +187,7 @@ resource "aws_vpc_dhcp_options" "dns_resolver" {
     "AmazonProvidedDNS",
   ])
 
-    lifecycle {
+  lifecycle {
     prevent_destroy = true
     ignore_changes = [
       domain_name_servers,
@@ -228,10 +228,11 @@ resource "aws_ssm_document" "ssm_doc" {
 }
 DOC
 
-lifecycle {
-  prevent_destroy = true
-  ignore_changes = [
-    name,
-  ]
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes = [
+      name,
+    ]
+  }
 
 }
