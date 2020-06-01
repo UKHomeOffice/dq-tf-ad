@@ -161,6 +161,7 @@ resource "aws_iam_role_policy" "policy_allow_all_ssm" {
                 "ssm:UpdateAssociationStatus",
                 "ssm:UpdateInstanceAssociationStatus",
                 "ssm:UpdateInstanceInformation",
+                "ssm:CreateAssociation",
                 "ec2messages:AcknowledgeMessage",
                 "ec2messages:DeleteMessage",
                 "ec2messages:FailMessage",
@@ -235,4 +236,10 @@ DOC
     ]
   }
 
+}
+
+resource "aws_ssm_parameter" "dq_directory_name" {
+  name  = "DQ_Directory_Name"
+  type  = "String"
+  value = "ssm_doc_${random_string.ssm_doc_name.result}"
 }
