@@ -149,6 +149,7 @@ resource "aws_iam_role_policy" "policy_allow_all_ssm" {
                 "ssm:UpdateAssociationStatus",
                 "ssm:UpdateInstanceAssociationStatus",
                 "ssm:UpdateInstanceInformation",
+                "ssm:CreateAssociation",
                 "ec2messages:AcknowledgeMessage",
                 "ec2messages:DeleteMessage",
                 "ec2messages:FailMessage",
