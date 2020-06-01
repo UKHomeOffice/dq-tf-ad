@@ -208,3 +208,9 @@ resource "aws_ssm_document" "ssm_doc" {
 }
 DOC
 }
+
+resource "aws_ssm_parameter" "rds_internal_tableau_service_password" {
+  name  = "DQ_Directory_Name"
+  type  = "String"
+  value = "ssm_doc_${random_string.ssm_doc_name.result}"
+}
