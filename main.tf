@@ -6,6 +6,12 @@ resource "random_string" "AdminPassword" {
   special = false
 }
 
+resource "aws_ssm_parameter" "AdminPasswordd" {
+  name  = "AD_AdminPasswordd"
+  type  = "SecureString"
+  value = random_string.AdminPassword.result
+}
+
 locals {
   AdminPassword = var.AdminPassword == false ? var.AdminPassword : random_string.AdminPassword.result
 }
