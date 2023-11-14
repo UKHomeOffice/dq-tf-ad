@@ -47,13 +47,5 @@ variable "allow_remote_vpc_dns_resolution" {
   default     = true
 }
 
-variable "public_dns_servers" {
-  description = "Map of Public DNS servers."
-  type        = list(string)
 
-  default = [
-    "8.8.8.8",
-    "8.8.4.4",
-  ]
-}
 
