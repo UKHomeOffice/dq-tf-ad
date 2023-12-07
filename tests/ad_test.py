@@ -18,14 +18,14 @@ module "ad" {
   source = "./mymodule"
 
   providers = {
-    aws = "aws"
+    aws = aws
   }
   cidr_block = "10.1.0.0/16"
 
   # ^^ not required unless this will clash with your existing
-  peer_with    = "${aws_vpc.vpc.*.id}"
+  peer_with    = aws_vpc.vpc.*.id
   peer_count   = 2
-  subnets      = "${aws_subnet.subnet.*.id}"
+  subnets      = aws_subnet.subnet.*.id
   subnet_count = 2
 }
 data "aws_availability_zones" "available" {}
@@ -37,28 +37,28 @@ locals {
 
 resource "aws_vpc" "vpc" {
   cidr_block           = "192.168.${count.index}.0/24"
-  count                = "${local.vpc_count}"
+  count                = local.vpc_count
   enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "subnet" {
-  vpc_id                  = "${element(aws_vpc.vpc.*.id, count.index)}"
+  vpc_id                  = element(aws_vpc.vpc.*.id, count.index)
   availability_zone       = "eu-west-2a"
-  cidr_block              = "${cidrsubnet(element(aws_vpc.vpc.*.cidr_block, count.index), 4, 1)}"
+  cidr_block              = cidrsubnet(element(aws_vpc.vpc.*.cidr_block, count.index), 4, 1)
   map_public_ip_on_launch = true
-  count                   = "${local.vpc_count}"
+  count                   = local.vpc_count
 }
 
 resource "aws_route_table" "rt" {
-  vpc_id = "${element(aws_vpc.vpc.*.id, count.index)}"
+  vpc_id = element(aws_vpc.vpc.*.id, count.index)
 
-  count = "${local.vpc_count}"
+  count = local.vpc_count
 }
 
 resource "aws_route_table_association" "association" {
-  route_table_id = "${element(aws_route_table.rt.*.id, count.index)}"
-  subnet_id      = "${element(aws_subnet.subnet.*.id, count.index)}"
-  count          = "${local.subnet_count}"
+  route_table_id = element(aws_route_table.rt.*.id, count.index)
+  subnet_id      = element(aws_subnet.subnet.*.id, count.index)
+  count          = local.subnet_count
 }
 
         """
