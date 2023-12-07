@@ -1,38 +1,47 @@
 ---
 global-variables:
+  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:32
+#  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.5
   vault-image: &vault-image docker.digital.homeoffice.gov.uk/dq/dq-vault-awscli:1.43
 
 kind: pipeline
 name: default
 type: kubernetes
+
 platform:
   os: linux
   arch: amd64
 
 x-anchors:
   retrieve-deployment-aws-key: &retrieve-deployment-aws-key
-    # Retrive vault secrets
-    - vault read aws_dacc_dq/creds/drone > aws_creds.json
-    - export LEASE_ID=$(cat aws_creds.json | grep lease_id | awk -F ' ' '{print $2}')
+    - vault --version
+    # Set AWS Account from step's environment variable AWS_ENV
+    - export AWS_CREDS_FILE="aws_creds_$${AWS_ENV}.json"
+    - export AWS_SECRETS_FILE="set_aws_secrets_$${AWS_ENV}.sh"
+    # Retrieve vault secrets
+    - vault read aws_dacc_dq/creds/drone > $${AWS_CREDS_FILE}
+    - export LEASE_ID=$(cat $${AWS_CREDS_FILE} | grep lease_id | awk -F ' ' '{print $2}')
+    - export ACCESS_KEY=$(cat $${AWS_CREDS_FILE} | grep access_key | awk -F ' ' '{print $2}')
+    - export SECRET_KEY=$(cat $${AWS_CREDS_FILE} | grep secret_key | awk -F ' ' '{print $2}')
+    - export REGION=eu-west-2
     # Update the token TTL to 10mins
-    - vault lease renew -increment=600 $${LEASE_ID}
-    # Get the AWS credentials
-    - echo "export AWS_ACCESS_KEY_ID=$(cat aws_creds.json | grep access_key | awk -F ' ' '{print $2}')" > set_aws_secrets.sh
-    - echo "export AWS_SECRET_ACCESS_KEY=$(cat aws_creds.json | grep secret_key | awk -F ' ' '{print $2}')" >> set_aws_secrets.sh
-    - echo "export AWS_DEFAULT_REGION=eu-west-2" >> set_aws_secrets.sh
-    # Since AWS is eventually consistent we need to sleep a little while so the AWS key is created and made available
-    - sleep 15
+    - vault lease renew -increment=3600 $${LEASE_ID}
+    # Get the AWS credentials - to allow TestRunner access to the Target Account
+    - echo "export AWS_ACCESS_KEY_ID=$${ACCESS_KEY}" > $${AWS_SECRETS_FILE}
+    - echo "export AWS_SECRET_ACCESS_KEY=$${SECRET_KEY}" >> $${AWS_SECRETS_FILE}
+    - echo "export AWS_DEFAULT_REGION=$${REGION}" >> $${AWS_SECRETS_FILE}
+
+  check-format: &check-format
+    - terraform --version
+    - terraform fmt --diff --check
+
+  run-testrunner: &run-testrunner
+    # Get AWS secrets for Target Account
+    - export AWS_SECRETS_FILE="set_aws_secrets_$${AWS_ENV}.sh"
+    - source ./$${AWS_SECRETS_FILE}
+    - python -m unittest tests/*_test.py
 
 steps:
-- name: testsuite
-  pull: if-not-exists
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
-  commands:
-  - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check
-  when:
-    event:
-    - push
-
 - name: retrieve_aws_secrets_test
   pull: if-not-exists
   image: *vault-image
@@ -47,35 +56,20 @@ steps:
     event:
       - push
 
+- name: check-format
+  pull: always
+  image: *testrunner-image
+  commands: *check-format
+  when:
+    event:
+      - push
+
 - name: run-testrunner-tests
   pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/tf-testrunner:32
-  commands:
-  - source ./set_aws_secrets.sh
-  - python -m unittest tests/*_test.py
-  when:
-    event:
-    - push
-
-- name: renew-vault-tokens
-  pull: if-not-exists
-  image: *vault-image
-  commands:
-    # the below Dev section needs to be uncommented
-    - export VAULT_TOKEN=$${VAULT_TOKEN_DEV}
-    - export VAULT_ADDR=$${VAULT_ADDR_DEV}
-    - vault token renew > /dev/null
+  image: *testrunner-image
+  commands: *run-testrunner
   environment:
-    VAULT_ADDR_DEV:
-      from_secret: VAULT_ADDR_DEV
-    VAULT_TOKEN_DEV:
-      from_secret: VAULT_TOKEN_DEV
+    AWS_ENV: test
   when:
     event:
-      - cron
-    cron:
-      - renew-vault-tokens
-
-services:
-  - name: docker
-    image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
+      - push
