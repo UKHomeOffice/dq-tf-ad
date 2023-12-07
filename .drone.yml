@@ -48,6 +48,7 @@ steps:
   commands:
     *retrieve-deployment-aws-key
   environment:
+    AWS_ENV: test
     VAULT_ADDR:
       from_secret: VAULT_ADDR_DEV
     VAULT_TOKEN:
