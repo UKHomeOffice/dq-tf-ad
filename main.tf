@@ -1,6 +1,3 @@
-provider "aws" {
-}
-
 resource "random_string" "AdminPassword" {
   length  = 16
   special = false
