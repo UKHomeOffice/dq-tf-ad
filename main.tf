@@ -24,6 +24,7 @@ resource "aws_vpc" "vpc" {
 resource "aws_default_security_group" "default" {
   vpc_id = aws_vpc.vpc.id
 
+  egress = []
   #egress {
   #  from_port   = 0
   #  to_port     = 0
