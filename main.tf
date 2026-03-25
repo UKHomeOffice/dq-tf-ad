@@ -31,6 +31,12 @@ resource "aws_default_security_group" "default" {
   #  protocol    = "-1"
   #  cidr_blocks = ["0.0.0.0/0"]
   #}
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes = [
+      egress,
+    ]
+  }
 }
 
 resource "aws_directory_service_directory" "ad" {
