@@ -2,7 +2,7 @@ locals {
   # Map of Active Directory Security Group IDs by environment
   ad_security_groups = {
     notprod = "sg-ca1f75a2"
-    prod    = "sg-bda02bd5"
+    #prod    = "sg-bda02bd5"
   }
 }
 
